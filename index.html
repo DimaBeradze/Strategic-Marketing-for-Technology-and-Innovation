@@ -1,1 +1,590 @@
-<h1>Olalaaa</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Strategic Marketing for Technology & Innovation — Interactive Hub</title>
+<style>
+  :root{
+    --bg:#f6f7f9;
+    --panel:#ffffff;
+    --ink:#1f2937;
+    --muted:#6b7280;
+    --brand:#0ea5a4;     /* teal */
+    --brand-ink:#064e4f;
+    --line:#e5e7eb;
+    --good:#10b981;
+    --bad:#ef4444;
+    --warn:#f59e0b;
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;
+    color:var(--ink);
+    background:linear-gradient(120deg,#f1f5f9, #f8fafc 40%, #eef7f7);
+  }
+  .layout{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    min-height:100vh;
+  }
+  /* Sidebar */
+  .aside{
+    background:#0f172a; /* deep slate */
+    color:#e2e8f0;
+    padding:28px 20px;
+    position:sticky; top:0; height:100vh; overflow:auto;
+    border-right:1px solid #0b1023;
+  }
+  .course{
+    display:flex; align-items:center; gap:12px; margin-bottom:22px;
+  }
+  .badge{
+    width:46px; height:46px; border-radius:12px;
+    display:grid; place-items:center; font-weight:800; letter-spacing:.5px;
+    background:linear-gradient(160deg,#14b8a6,#0ea5a4);
+    color:white; box-shadow:0 10px 24px rgba(20,184,166,.35);
+  }
+  .course h1{font-size:16px; margin:0; line-height:1.2}
+  .course p{margin:2px 0 0; color:#a3a8b5; font-size:12px}
+  .nav{
+    display:grid; gap:8px; margin-top:18px;
+  }
+  .nav button{
+    text-align:left; border:1px solid rgba(255,255,255,.08);
+    background:transparent; color:#e5e7eb; padding:12px 14px;
+    border-radius:12px; cursor:pointer; transition:.18s;
+    font-weight:600; font-size:14px;
+  }
+  .nav button:hover{background:rgba(255,255,255,.06)}
+  .nav button.active{
+    background:linear-gradient(90deg,#0ea5a4,#14b8a6);
+    border-color:transparent; color:white; box-shadow:0 6px 16px rgba(20,184,166,.35);
+  }
+  .tips{
+    margin-top:22px; border-top:1px dashed rgba(255,255,255,.08); padding-top:14px;
+    font-size:12px; color:#9aa3b2;
+  }
+  .tips kbd{background:#0b1023; border:1px solid #1f2b4a; padding:2px 6px; border-radius:6px; font-family:ui-monospace, SFMono-Regular, Menlo, monospace}
+
+  /* Main */
+  .main{
+    padding:28px; display:grid; gap:22px;
+  }
+  .header{
+    display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+  }
+  .title{
+    display:flex; gap:14px; align-items:center;
+  }
+  .title h2{margin:0; font-size:22px}
+  .pill{
+    background:#def7f6; color:var(--brand-ink);
+    border:1px solid #b2ecea; padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px;
+  }
+  .progress{
+    display:flex; align-items:center; gap:10px; min-width:220px;
+  }
+  .bar{
+    height:10px; width:200px; background:#e5f4f3; border-radius:999px; overflow:hidden;
+    border:1px solid #c7ecea;
+  }
+  .fill{
+    height:100%; width:0; background:linear-gradient(90deg,#0ea5a4,#14b8a6);
+    transition:width .4s ease; border-radius:999px;
+  }
+  /* Sections */
+  .section{
+    display:none;
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:var(--radius); padding:22px;
+    box-shadow:0 8px 32px rgba(2,6,23,.06);
+    animation:fade .25s ease;
+  }
+  .section.active{display:block}
+  @keyframes fade{from{opacity:.6; transform:translateY(4px)} to{opacity:1; transform:none}}
+
+  .grid{
+    display:grid; gap:16px;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  }
+  .card{
+    background:#fbfdfd; border:1px solid #e7f2f1; border-radius:14px; padding:16px;
+  }
+  .card h3{margin:0 0 8px 0; font-size:16px}
+  .muted{color:var(--muted)}
+  .callout{
+    border-left:6px solid var(--brand); background:#ecfdfd; padding:12px 14px; border-radius:10px; font-size:14px;
+  }
+
+  /* Accordions */
+  details{
+    border:1px solid var(--line); border-radius:12px; background:white; padding:14px;
+  }
+  details+details{margin-top:12px}
+  summary{
+    cursor:pointer; list-style:none; font-weight:700; color:#0b3f40;
+  }
+  summary::-webkit-details-marker{display:none}
+  .tag{
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:.3px;
+    padding:3px 8px; border-radius:999px; background:#eefcfb; color:#0b4445; border:1px solid #c7efee;
+  }
+
+  /* Tools */
+  .tool{
+    display:grid; gap:10px; background:#f9fafb; border:1px dashed #dbe2e8;
+    padding:14px; border-radius:12px;
+  }
+  .tool label{font-size:12px; color:#4b5563}
+  .tool input, .tool select{
+    width:100%; padding:10px; border-radius:10px; border:1px solid #cfd8df; background:white; font:inherit;
+  }
+  .tool .row{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .tool .out{
+    background:#0b3f40; color:#d1fffb; border-radius:10px; padding:10px; font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  /* Quiz */
+  .quiz-q{
+    border:1px solid var(--line); border-radius:14px; padding:16px; background:#ffffff;
+  }
+  .quiz-q h4{margin:0 0 8px 0}
+  .options{display:grid; gap:8px}
+  .opt{
+    border:1px solid #dbe2e8; border-radius:10px; padding:10px; background:#fbfdfd; cursor:pointer; transition:.18s;
+  }
+  .opt:hover{border-color:#9adbd8}
+  .opt.correct{border-color:var(--good); background:#ecfdf5}
+  .opt.wrong{border-color:var(--bad); background:#fef2f2}
+  .feedback{font-size:13px; margin-top:8px}
+  .feedback.good{color:var(--good)}
+  .feedback.bad{color:var(--bad)}
+
+  /* Footer help */
+  .foot{
+    font-size:12px; color:var(--muted); text-align:center; padding:8px 0 0;
+  }
+
+  /* Responsive tweak */
+  @media (max-width: 900px){
+    .layout{grid-template-columns:1fr}
+    .aside{position:relative; height:auto; border-right:none; border-bottom:1px solid #0b1023}
+  }
+</style>
+</head>
+<body>
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="aside" aria-label="Course navigation">
+      <div class="course" role="heading" aria-level="1">
+        <div class="badge">SM</div>
+        <div>
+          <h1>Strategic Marketing</h1>
+          <p>Technology & Innovation</p>
+        </div>
+      </div>
+      <nav class="nav" id="nav">
+        <button class="active" data-target="overview">Overview</button>
+        <button data-target="marketplace">Marketplace & Customers</button>
+        <button data-target="strategy">Strategy & Value Proposition</button>
+        <button data-target="mix">Marketing Mix (4Ps)</button>
+        <button data-target="crm">Customer Value & CRM</button>
+        <button data-target="trends">Digital & Sustainability</button>
+        <button data-target="tools">Tools: CLV Estimator</button>
+        <button data-target="quiz">Check Your Understanding</button>
+      </nav>
+      <div class="tips">
+        <div><strong>Shortcuts</strong></div>
+        <div>Navigate: <kbd>[</kbd> / <kbd>]</kbd></div>
+        <div>Mark complete: <kbd>C</kbd></div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <div class="header">
+        <div class="title">
+          <span class="pill">Course Hub</span>
+          <h2 id="sectionTitle">Overview</h2>
+        </div>
+        <div class="progress" aria-label="Progress">
+          <div class="bar" aria-hidden="true"><div class="fill" id="fill"></div></div>
+          <strong id="pct">0%</strong>
+        </div>
+      </div>
+
+      <!-- Overview -->
+      <section class="section active" id="overview" aria-labelledby="sectionTitle">
+        <div class="grid">
+          <div class="card">
+            <h3>How this hub works</h3>
+            <p class="muted">Explore sections from the sidebar. Your progress saves automatically in this browser.</p>
+            <div class="callout">Goal: connect core marketing concepts to real technology/innovation cases you already know.</div>
+          </div>
+          <div class="card">
+            <h3>Learning outcomes</h3>
+            <ul class="muted">
+              <li>Explain needs/wants/demands & market offerings</li>
+              <li>Craft a clear value proposition</li>
+              <li>Design a coherent 4Ps program</li>
+              <li>Evaluate CLV, share of customer, and customer equity</li>
+              <li>Assess trends: social, mobile, data/AI, sustainability</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Completion rule</h3>
+            <p class="muted">Open each section and expand at least one accordion to reach 100%.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Marketplace -->
+      <section class="section" id="marketplace">
+        <h3 style="margin-top:0">Marketplace & Customers <span class="tag">Foundations</span></h3>
+        <p class="muted">Needs → Wants → Demands. Market offerings deliver value; avoid marketing myopia by focusing on benefits/experiences.</p>
+        <details>
+          <summary>Key concepts</summary>
+          <ul class="muted">
+            <li><strong>Needs</strong>: states of felt deprivation</li>
+            <li><strong>Wants</strong>: needs shaped by culture/personality</li>
+            <li><strong>Demands</strong>: wants + buying power</li>
+            <li><strong>Market offering</strong>: products/services/experiences</li>
+            <li><strong>Exchange</strong> & <strong>relationships</strong></li>
+          </ul>
+        </details>
+        <details>
+          <summary>Activity: Spot the myopia</summary>
+          <div class="tool">
+            <label for="myopia">Describe a tech product and rewrite it as a benefit-driven promise.</label>
+            <input id="myopia" placeholder="e.g., '8K camera' → 'Capture life-like memories in any light'"/>
+          </div>
+        </details>
+      </section>
+
+      <!-- Strategy -->
+      <section class="section" id="strategy">
+        <h3 style="margin-top:0">Strategy & Value Proposition <span class="tag">Targeting</span></h3>
+        <p class="muted">Decide whom to serve (segmentation/targeting) and how to serve them (differentiation/positioning).</p>
+        <div class="grid">
+          <div class="card">
+            <h3>Orientations</h3>
+            <ul class="muted">
+              <li>Production | Product | Selling | Marketing | Societal</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Value Proposition Canvas (quick)</h3>
+            <div class="tool">
+              <div class="row">
+                <div>
+                  <label>Pains / Jobs / Gains (Customer)</label>
+                  <input id="vp-cust" placeholder="Jobs, pains, gains">
+                </div>
+                <div>
+                  <label>Relief / Product / Outcomes (Offer)</label>
+                  <input id="vp-offer" placeholder="Features that relieve pains & create gains">
+                </div>
+              </div>
+              <div class="out" id="vp-out">Your positioning will appear here…</div>
+              <button id="vp-btn" aria-label="Generate positioning">Generate Positioning</button>
+            </div>
+          </div>
+        </div>
+        <details>
+          <summary>Example prompts</summary>
+          <p class="muted">“For <em>segment</em> who struggle with <em>need</em>, our <em>product</em> is a <em>category</em> that <em>benefit</em>, unlike <em>alternative</em>.”</p>
+        </details>
+      </section>
+
+      <!-- 4Ps -->
+      <section class="section" id="mix">
+        <h3 style="margin-top:0">Marketing Mix (4Ps) <span class="tag">Program</span></h3>
+        <div class="grid">
+          <div class="card"><h3>Product</h3><p class="muted">Core benefit → Actual product → Augmented (support, warranties, ecosystem).</p></div>
+          <div class="card"><h3>Price</h3><p class="muted">Value-based, competition-based, or cost-based; freemium/tiers for software.</p></div>
+          <div class="card"><h3>Place</h3><p class="muted">Omnichannel, DTC, platforms/marketplaces, app stores, APIs.</p></div>
+          <div class="card"><h3>Promotion</h3><p class="muted">Owned/earned/paid media; communities; UGC; lifecycle messaging.</p></div>
+        </div>
+        <details>
+          <summary>Mini-planner</summary>
+          <div class="tool">
+            <div class="row">
+              <input id="p-prod" placeholder="Key feature set (Product)">
+              <input id="p-price" placeholder="Model (Price)">
+            </div>
+            <div class="row">
+              <input id="p-place" placeholder="Channels (Place)">
+              <input id="p-promo" placeholder="Signature message (Promotion)">
+            </div>
+            <div class="out" id="p-out">Your 4Ps summary will appear here…</div>
+            <button id="p-btn">Compile 4Ps</button>
+          </div>
+        </details>
+      </section>
+
+      <!-- CRM -->
+      <section class="section" id="crm">
+        <h3 style="margin-top:0">Customer Value & CRM <span class="tag">Retention</span></h3>
+        <p class="muted">Delight increases satisfaction → retention → higher CLV & customer equity. Engage customers in shaping experiences.</p>
+        <details>
+          <summary>Building blocks</summary>
+          <ul class="muted">
+            <li><strong>Perceived value</strong> vs. cost</li>
+            <li><strong>Satisfaction</strong> = performance vs. expectations</li>
+            <li><strong>Engagement</strong> & communities</li>
+            <li><strong>Share of customer</strong> & <strong>equity</strong></li>
+          </ul>
+        </details>
+        <details>
+          <summary>Design a loyalty loop</summary>
+          <div class="tool">
+            <label>What recurring value will keep users returning?</label>
+            <input id="loop" placeholder="e.g., weekly insights email, exclusive API credits, etc."/>
+          </div>
+        </details>
+      </section>
+
+      <!-- Trends -->
+      <section class="section" id="trends">
+        <h3 style="margin-top:0">Digital & Sustainability <span class="tag">Context</span></h3>
+        <div class="grid">
+          <div class="card"><h3>Social & Mobile</h3><p class="muted">Design for shareability; conversational touchpoints; in-app native UX.</p></div>
+          <div class="card"><h3>Data & AI</h3><p class="muted">Personalization, propensity models, churn prediction; privacy-first analytics.</p></div>
+          <div class="card"><h3>Globalization</h3><p class="muted">Localize value props; pricing & channels by market maturity.</p></div>
+          <div class="card"><h3>Sustainable Marketing</h3><p class="muted">Align with long-run consumer & societal interests; verify claims.</p></div>
+        </div>
+        <details>
+          <summary>Activity: One trend, one test</summary>
+          <div class="tool">
+            <label>Pick a trend and define a 2-week experiment and success metric.</label>
+            <input id="trend" placeholder="e.g., UGC tutorial series → +15% activations"/>
+          </div>
+        </details>
+      </section>
+
+      <!-- Tools -->
+      <section class="section" id="tools">
+        <h3 style="margin-top:0">Tools: Simple CLV Estimator <span class="tag">Calculator</span></h3>
+        <p class="muted">Assumes subscription-like revenue. Uses <em>CLV ≈ ARPU × Gross Margin × Average Customer Lifespan (months)</em>.</p>
+        <div class="tool" role="form" aria-label="CLV estimator">
+          <div class="row">
+            <div>
+              <label>Monthly ARPU (₾ / $)</label>
+              <input id="arpu" type="number" step="0.01" value="15" />
+            </div>
+            <div>
+              <label>Gross Margin (%)</label>
+              <input id="gm" type="number" step="1" value="75" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Monthly Churn (%)</label>
+              <input id="churn" type="number" step="0.1" value="5" />
+            </div>
+            <div>
+              <label>Discount rate (monthly, %)</label>
+              <input id="disc" type="number" step="0.1" value="0" />
+            </div>
+          </div>
+          <div class="out" id="clvOut">CLV: —</div>
+          <button id="clvBtn">Calculate CLV</button>
+        </div>
+        <small class="muted">Note: With churn, average lifespan ≈ 1 / churn. Discounting adjusts NPV for longer horizons.</small>
+      </section>
+
+      <!-- Quiz -->
+      <section class="section" id="quiz">
+        <h3 style="margin-top:0">Check Your Understanding <span class="tag">10 Questions</span></h3>
+        <div id="quizWrap"></div>
+        <div class="foot">Your score and progress are saved locally.</div>
+      </section>
+
+    </main>
+  </div>
+
+<script>
+/* ========= State / Progress ========= */
+const sections = ["overview","marketplace","strategy","mix","crm","trends","tools","quiz"];
+const state = JSON.parse(localStorage.getItem("smti_state")||"{}");
+state.visited = new Set(state.visited||[]);
+state.completed = new Set(state.completed||[]);
+let current = state.current || sections[0];
+
+const $ = (sel, root=document)=>root.querySelector(sel);
+const $$ = (sel, root=document)=>[...root.querySelectorAll(sel)];
+
+function save(){
+  const s = {
+    visited:[...state.visited],
+    completed:[...state.completed],
+    current
+  };
+  localStorage.setItem("smti_state", JSON.stringify(s));
+}
+function setProgress(){
+  const pct = Math.round((state.completed.size/sections.length)*100);
+  $("#fill").style.width = pct+"%";
+  $("#pct").textContent = pct+"%";
+}
+
+/* ========= Navigation ========= */
+const nav = $("#nav");
+nav.addEventListener("click",(e)=>{
+  const btn = e.target.closest("button[data-target]");
+  if(!btn) return;
+  openSection(btn.dataset.target);
+});
+function openSection(id){
+  sections.forEach(s=>{
+    $("#"+s).classList.toggle("active", s===id);
+    const btn = $(`button[data-target="${s}"]`, nav);
+    if(btn) btn.classList.toggle("active", s===id);
+  });
+  $("#sectionTitle").textContent = $(`#${id} h3`)?.textContent?.replace(/\s+<.*$/,'') || id;
+  current = id;
+  state.visited.add(id);
+  // mark completed the first time user expands any details within the section
+  const sec = $("#"+id);
+  const firstDetails = $("details", sec);
+  if(!firstDetails){
+    state.completed.add(id);
+  }
+  save(); setProgress();
+}
+openSection(current);
+
+/* Mark complete when any accordion opens */
+$$("details").forEach(d=>{
+  d.addEventListener("toggle", ()=>{
+    const sec = d.closest(".section").id;
+    if(d.open){ state.completed.add(sec); save(); setProgress(); }
+  });
+});
+
+/* Keyboard shortcuts */
+window.addEventListener("keydown",(e)=>{
+  if(e.key==="[" || e.key==="ArrowUp"){
+    e.preventDefault();
+    const idx = sections.indexOf(current);
+    const next = Math.max(0, idx-1);
+    openSection(sections[next]);
+  }
+  if(e.key==="]" || e.key==="ArrowDown"){
+    e.preventDefault();
+    const idx = sections.indexOf(current);
+    const next = Math.min(sections.length-1, idx+1);
+    openSection(sections[next]);
+  }
+  if(e.key.toLowerCase()==="c"){
+    state.completed.add(current); save(); setProgress();
+  }
+});
+
+/* ========= Value Proposition generator ========= */
+$("#vp-btn")?.addEventListener("click", ()=>{
+  const cust = ($("#vp-cust")?.value||"").trim();
+  const offer = ($("#vp-offer")?.value||"").trim();
+  const msg = cust && offer
+    ? `Positioning: For customers with ${cust}, our solution delivers ${offer} — creating measurable outcomes that alternatives can’t match.`
+    : "Add both customer and offer inputs to generate a positioning line.";
+  $("#vp-out").textContent = msg;
+});
+
+/* ========= 4Ps compiler ========= */
+$("#p-btn")?.addEventListener("click", ()=>{
+  const prod = ($("#p-prod")?.value||"—");
+  const price = ($("#p-price")?.value||"—");
+  const place = ($("#p-place")?.value||"—");
+  const promo = ($("#p-promo")?.value||"—");
+  $("#p-out").textContent =
+    `4Ps: Product=${prod} | Price=${price} | Place=${place} | Promotion=${promo}`;
+});
+
+/* ========= CLV estimator ========= */
+function calcCLV(){
+  const arpu = parseFloat($("#arpu").value||0);
+  const gm = (parseFloat($("#gm").value||0))/100;
+  const churn = (parseFloat($("#churn").value||0))/100;
+  const disc = (parseFloat($("#disc").value||0))/100;
+
+  if(arpu<=0 || gm<=0 || churn<=0){
+    $("#clvOut").textContent = "CLV: please enter ARPU>0, Margin>0, Churn>0";
+    return;
+  }
+  // Average lifespan (months) with churn & discount (approx): 1 / (churn + disc)
+  const lifespan = 1 / (churn + disc);
+  const clv = arpu * gm * lifespan;
+  $("#clvOut").textContent = `CLV ≈ ${clv.toFixed(2)} (currency units)  | Lifespan ≈ ${lifespan.toFixed(1)} months`;
+}
+$("#clvBtn")?.addEventListener("click", calcCLV);
+
+/* ========= Quiz ========= */
+const questions = [
+  {q:"Marketing myopia is…",
+   a:["Focusing on product features, not customer benefits","Using too many channels","Overpricing in new markets","Ignoring sales teams"], c:0},
+  {q:"‘Wants’ differ from ‘needs’ because wants are…",
+   a:["Backed by buying power","Shaped by culture and personality","Always irrational","The same across segments"], c:1},
+  {q:"A value proposition is…",
+   a:["A slogan","The set of benefits promised to a target segment","A pricing plan","A sales quota"], c:1},
+  {q:"Which orientation prioritizes long-run consumer & societal well-being?",
+   a:["Selling","Product","Societal marketing","Production"], c:2},
+  {q:"In the 4Ps, ‘Place’ mainly addresses…",
+   a:["Distribution channels & availability","Price discrimination","Creative copy","Unit economics"], c:0},
+  {q:"Perceived value increases when…",
+   a:["Benefits rise or costs fall","Costs rise and benefits fall","Switching costs increase only","Competitors advertise more"], c:0},
+  {q:"Customer Lifetime Value tends to increase when…",
+   a:["Churn rises","Margin falls","Retention improves","ARPU decreases"], c:2},
+  {q:"Share of customer means…",
+   a:["Market share across all customers","Portion of a single customer’s category spend you capture","Share of voice in media","Equity stake in a customer’s firm"], c:1},
+  {q:"A mobile UGC campaign is most closely tied to…",
+   a:["Consumer-generated marketing","Production concept","Exclusive distribution","Price skimming"], c:0},
+  {q:"Sustainable marketing suggests firms should consider…",
+   a:["Only quarterly profits","Only customers’ current wants","Company needs and society’s long-run interests","Shareholders only"], c:2}
+];
+const quizWrap = $("#quizWrap");
+function renderQuiz(){
+  quizWrap.innerHTML = "";
+  questions.forEach((item, i)=>{
+    const q = document.createElement("div"); q.className = "quiz-q";
+    q.innerHTML = `<h4>${i+1}. ${item.q}</h4>
+      <div class="options" role="listbox" aria-label="Options for question ${i+1}">
+        ${item.a.map((t,j)=>`<div class="opt" role="option" data-i="${i}" data-j="${j}">${t}</div>`).join("")}
+      </div>
+      <div class="feedback" id="fb-${i}"></div>`;
+    quizWrap.appendChild(q);
+  });
+}
+renderQuiz();
+
+quizWrap.addEventListener("click",(e)=>{
+  const opt = e.target.closest(".opt");
+  if(!opt) return;
+  const i = +opt.dataset.i, j = +opt.dataset.j;
+  const correct = questions[i].c === j;
+  const opts = $$(".opt", opt.parentElement);
+  opts.forEach(o=>o.classList.remove("correct","wrong"));
+  opt.classList.add(correct ? "correct":"wrong");
+  const fb = $(`#fb-${i}`);
+  if(correct){
+    fb.textContent = "✅ Correct";
+    fb.className = "feedback good";
+  }else{
+    fb.textContent = "❌ Try again";
+    fb.className = "feedback bad";
+  }
+  // Mark section complete on any correct answer
+  if(correct){ state.completed.add("quiz"); save(); setProgress(); }
+});
+
+/* Ensure initial progress reflects previously visited/completed */
+(state.visited||[]).forEach(v=>state.visited.add(v));
+(state.completed||[]).forEach(v=>state.completed.add(v));
+setProgress();
+</script>
+</body>
+</html>
