@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 1: Marketing Fundamentals</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #f7fafc;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 280px;
+            background: linear-gradient(180deg, #5a67d8 0%, #9f7aea 100%);
+            overflow-y: auto;
+            padding: 20px;
+            z-index: 100;
+        }
+
+        .sidebar h2 {
+            color: white;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .menu-item {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .menu-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(5px);
+        }
+
+        .menu-item.active {
+            background: white;
+            color: #5a67d8;
+            font-weight: 600;
+        }
+
+        .menu-item .icon {
+            margin-right: 8px;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 30px 40px;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .section-header h1 {
+            color: #2d3748;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: #718096;
+            font-size: 1.1em;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        }
+
+        .card h3 {
+            color: #5a67d8;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .concept-card:hover {
+            transform: scale(1.05);
+        }
+
+        .concept-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .concept-card p {
+            font-size: 0.95em;
+            opacity: 0.95;
+        }
+
+        .interactive-quiz {
+            background: #edf2f7;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .quiz-question h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .quiz-option {
+            background: white;
+            padding: 12px 20px;
+            margin: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: #5a67d8;
+            background: #f7fafc;
+        }
+
+        .quiz-option.correct {
+            background: #c6f6d5;
+            border-color: #48bb78;
+        }
+
+        .quiz-option.incorrect {
+            background: #fed7d7;
+            border-color: #f56565;
+        }
+
+        .process-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .process-step {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            margin: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .process-step::after {
+            content: '→';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+            color: #5a67d8;
+        }
+
+        .process-step:last-child::after {
+            display: none;
+        }
+
+        .process-step h5 {
+            color: #5a67d8;
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: #5a67d8;
+            border: 2px solid #5a67d8;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 200;
+        }
+
+        .back-button:hover {
+            background: #5a67d8;
+            color: white;
+        }
+
+        .example-box {
+            background: #f7fafc;
+            border-left: 4px solid #5a67d8;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .example-box h5 {
+            color: #5a67d8;
+            margin-bottom: 8px;
+        }
+
+        .key-point {
+            background: linear-gradient(135deg, #fbb6ce, #fda4af);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            color: #702459;
+        }
+
+        .definition-card {
+            background: #fef5e7;
+            border: 2px solid #f39c12;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .definition-card strong {
+            color: #e67e22;
+        }
+
+        .video-placeholder {
+            background: #2d3748;
+            color: white;
+            padding: 60px;
+            text-align: center;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .video-placeholder h4 {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .process-step::after {
+                display: none;
+            }
+        }
+
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #5a67d8;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 300;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰ Menu</button>
+    <button class="back-button" onclick="goBack()">← Back to Course</button>
+
+    <aside class="sidebar" id="sidebar">
+        <h2>📚 Lecture 1 Contents</h2>
+        <div class="menu-item active" onclick="showSection('overview')">
+            <span class="icon">🎯</span> Overview
+        </div>
+        <div class="menu-item" onclick="showSection('what-is-marketing')">
+            <span class="icon">💡</span> What is Marketing?
+        </div>
+        <div class="menu-item" onclick="showSection('marketing-process')">
+            <span class="icon">🔄</span> Marketing Process
+        </div>
+        <div class="menu-item" onclick="showSection('customer-needs')">
+            <span class="icon">👥</span> Customer Needs
+        </div>
+        <div class="menu-item" onclick="showSection('value-proposition')">
+            <span class="icon">💎</span> Value Proposition
+        </div>
+        <div class="menu-item" onclick="showSection('marketing-mix')">
+            <span class="icon">🎨</span> Marketing Mix (4Ps)
+        </div>
+        <div class="menu-item" onclick="showSection('customer-relationships')">
+            <span class="icon">🤝</span> Customer Relationships
+        </div>
+        <div class="menu-item" onclick="showSection('digital-landscape')">
+            <span class="icon">🌐</span> Digital Landscape
+        </div>
+        <div class="menu-item" onclick="showSection('case-study')">
+            <span class="icon">📊</span> Amazon Case Study
+        </div>
+        <div class="menu-item" onclick="showSection('practice')">
+            <span class="icon">✍️</span> Practice Questions
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <!-- Overview Section -->
+        <div class="content-section active" id="overview">
+            <div class="section-header">
+                <h1>Welcome to Marketing Fundamentals</h1>
+                <p>Creating Customer Value and Engagement in the Digital Age</p>
+            </div>
+
+            <div class="card">
+                <h3>Learning Objectives</h3>
+                <div class="concept-grid">
+                    <div class="concept-card" onclick="showSection('what-is-marketing')">
+                        <h4>1</h4>
+                        <p>Define marketing and outline the marketing process</p>
+                    </div>
+                    <div class="concept-card" onclick="showSection('customer-needs')">
+                        <h4>2</h4>
+                        <p>Understand marketplace and customer needs</p>
+                    </div>
+                    <div class="concept-card" onclick="showSection('value-proposition')">
+                        <h4>3</h4>
+                        <p>Design customer value-driven strategies</p>
+                    </div>
+                    <div class="concept-card" onclick="showSection('customer-relationships')">
+                        <h4>4</h4>
+                        <p>Build and manage customer relationships</p>
+                    </div>
+                    <div class="concept-card" onclick="showSection('digital-landscape')">
+                        <h4>5</h4>
+                        <p>Navigate the changing marketing landscape</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📖 Chapter Overview</h3>
+                <p>This chapter introduces the fundamental concepts of marketing, focusing on how companies create value for customers and build strong customer relationships to capture value in return. We'll explore the marketing process, understand customer needs, and examine how digital transformation is reshaping marketing strategies.</p>
+            </div>
+        </div>
+
+        <!-- What is Marketing Section -->
+        <div class="content-section" id="what-is-marketing">
+            <div class="section-header">
+                <h1>What is Marketing?</h1>
+                <p>Understanding the Core Concept</p>
+            </div>
+
+            <div class="card">
+                <h3>Definition</h3>
+                <div class="definition-card">
+                    <strong>Marketing</strong> is a process by which companies create value for customers and build strong customer relationships in order to capture value from customers in return.
+                </div>
+                
+                <div class="key-point">
+                    💡 <strong>Key Insight:</strong> Marketing is not just about selling products - it's about creating genuine value for customers and building lasting relationships.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>AMA's Formal Definition</h3>
+                <p>According to the American Marketing Association:</p>
+                <div class="definition-card">
+                    "Marketing is the activity, set of institutions, and processes for creating, communicating, delivering, and exchanging offerings that have value for customers, clients, partners, and society at large."
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Marketing is Everywhere</h3>
+                <p>Marketing surrounds us in various forms:</p>
+                <div class="example-box">
+                    <h5>Traditional Forms:</h5>
+                    <p>TV commercials, print ads, billboards, radio spots</p>
+                </div>
+                <div class="example-box">
+                    <h5>Digital Forms:</h5>
+                    <p>Websites, mobile apps, social media, online videos, email campaigns</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Marketing Process Section -->
+        <div class="content-section" id="marketing-process">
+            <div class="section-header">
+                <h1>The Marketing Process</h1>
+                <p>Creating and Capturing Customer Value</p>
+            </div>
+
+            <div class="card">
+                <h3>Five-Step Marketing Process</h3>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <h5>Step 1</h5>
+                        <p>Understand the marketplace and customer needs</p>
+                    </div>
+                    <div class="process-step">
+                        <h5>Step 2</h5>
+                        <p>Design a customer value-driven marketing strategy</p>
+                    </div>
+                    <div class="process-step">
+                        <h5>Step 3</h5>
+                        <p>Construct an integrated marketing program</p>
+                    </div>
+                    <div class="process-step">
+                        <h5>Step 4</h5>
+                        <p>Engage customers and build relationships</p>
+                    </div>
+                    <div class="process-step">
+                        <h5>Step 5</h5>
+                        <p>Capture value from customers</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-point">
+                📌 <strong>Important:</strong> The first four steps create value FOR customers. The final step captures value FROM customers in return.
+            </div>
+        </div>
+
+        <!-- Customer Needs Section -->
+        <div class="content-section" id="customer-needs">
+            <div class="section-header">
+                <h1>Understanding Customer Needs</h1>
+                <p>The Foundation of Marketing</p>
+            </div>
+
+            <div class="card">
+                <h3>Needs, Wants, and Demands</h3>
+                <div class="concept-grid">
+                    <div class="definition-card">
+                        <strong>Needs</strong>
+                        <p>States of felt deprivation (physical, social, individual)</p>
+                    </div>
+                    <div class="definition-card">
+                        <strong>Wants</strong>
+                        <p>Form that needs take, shaped by culture and personality</p>
+                    </div>
+                    <div class="definition-card">
+                        <strong>Demands</strong>
+                        <p>Wants backed by buying power</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Market Offerings</h3>
+                <p>Combinations of products, services, information, or experiences offered to satisfy needs or wants.</p>
+                
+                <div class="example-box">
+                    <h5>Example: Airbnb</h5>
+                    <p>CEO Brian Chesky and co-founder Joe Gebbia regularly stay at host locations to understand real user experiences and shape new customer solutions.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>⚠️ Avoiding Marketing Myopia</h3>
+                <div class="key-point">
+                    <strong>Marketing Myopia:</strong> Paying more attention to specific products than to the benefits and experiences they produce.
+                    <br><br>
+                    <em>Example:</em> Railroad companies declined because they saw themselves in the "railroad business" rather than the "transportation business."
+                </div>
+            </div>
+        </div>
+
+        <!-- Value Proposition Section -->
+        <div class="content-section" id="value-proposition">
+            <div class="section-header">
+                <h1>Value Proposition</h1>
+                <p>Creating Competitive Advantage</p>
+            </div>
+
+            <div class="card">
+                <h3>What is a Value Proposition?</h3>
+                <div class="definition-card">
+                    The set of benefits or values a company promises to deliver to customers to satisfy their needs.
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Examples of Strong Value Propositions</h3>
+                
+                <div class="example-box">
+                    <h5>Sonos One with Alexa</h5>
+                    <p>"The smart speaker for music lovers" - All the advantages of Alexa but with high-quality Sonos sound</p>
+                </div>
+                
+                <div class="example-box">
+                    <h5>Amazon</h5>
+                    <p>"Earth's most customer-centric company" - Creating genuine value through convenience, selection, and service</p>
+                </div>
+
+                <div class="example-box">
+                    <h5>Jeni's Splendid Ice Creams</h5>
+                    <p>"Ice creams created in fellowship with growers, makers, and producers" - Artisanal quality and community values</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Marketing Mix Section -->
+        <div class="content-section" id="marketing-mix">
+            <div class="section-header">
+                <h1>Marketing Mix - The 4 Ps</h1>
+                <p>Tools for Delivering Value</p>
+            </div>
+
+            <div class="card">
+                <h3>The Four Ps Framework</h3>
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4>📦 Product</h4>
+                        <p>Variety, Quality, Design, Features, Brand, Packaging</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>💰 Price</h4>
+                        <p>List price, Discounts, Payment period, Credit terms</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>📢 Promotion</h4>
+                        <p>Advertising, Personal selling, Sales promotion, PR</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>📍 Place</h4>
+                        <p>Channels, Coverage, Locations, Inventory, Transport</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>What Can Be Marketed?</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                    <div class="example-box">
+                        <h5>Goods & Services</h5>
+                        <p>Physical products, professional services</p>
+                    </div>
+                    <div class="example-box">
+                        <h5>Events & Experiences</h5>
+                        <p>Concerts, Disney World, Mount Everest climbs</p>
+                    </div>
+                    <div class="example-box">
+                        <h5>Persons & Places</h5>
+                        <p>Personal branding, tourism destinations</p>
+                    </div>
+                    <div class="example-box">
+                        <h5>Properties</h5>
+                        <p>Real estate, stocks, bonds</p>
+                    </div>
+                    <div class="example-box">
+                        <h5>Organizations</h5>
+                        <p>Corporate image, reputation</p>
+                    </div>
+                    <div class="example-box">
+                        <h5>Information & Ideas</h5>
+                        <p>Books, courses, social campaigns</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Relationships Section -->
+        <div class="content-section" id="customer-relationships">
+            <div class="section-header">
+                <h1>Building Customer Relationships</h1>
+                <p>Creating Long-term Value</p>
+            </div>
+
+            <div class="card">
+                <h3>Customer Relationship Management (CRM)</h3>
+                <p>The overall process of building and maintaining profitable customer relationships by delivering superior customer value and satisfaction.</p>
+                
+                <div class="concept-grid">
+                    <div class="definition-card">
+                        <strong>Customer-Perceived Value</strong>
+                        <p>The difference between total customer benefits and customer costs</p>
+                    </div>
+                    <div class="definition-card">
+                        <strong>Customer Satisfaction</strong>
+                        <p>The extent to which perceived performance matches expectations</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Customer Engagement Marketing</h3>
+                <p>Fostering direct and continuous customer involvement in shaping brand conversations, experiences, and community.</p>
+                
+                <div class="example-box">
+                    <h5>Example: BarkBox</h5>
+                    <p>Rather than hard-sell pitches, Bark engages customers with humor about "the weird dogs we live with and the funny things they do."</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Key Metrics</h3>
+                <div class="concept-grid">
+                    <div class="definition-card">
+                        <strong>Customer Lifetime Value</strong>
+                        <p>Value of entire stream of purchases over a lifetime</p>
+                    </div>
+                    <div class="definition-card">
+                        <strong>Share of Customer</strong>
+                        <p>Portion of customer's purchasing in product categories</p>
+                    </div>
+                    <div class="definition-card">
+                        <strong>Customer Equity</strong>
+                        <p>Total combined lifetime values of all customers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Digital Landscape Section -->
+        <div class="content-section" id="digital-landscape">
+            <div class="section-header">
+                <h1>The Changing Marketing Landscape</h1>
+                <p>Trends Shaping Modern Marketing</p>
+            </div>
+
+            <div class="card">
+                <h3>Major Trends</h3>
+                <div class="concept-grid">
+                    <div class="concept-card">
+                        <h4>🌐 Digital Age</h4>
+                        <p>Internet of Things, connected devices, online engagement</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>📱 Mobile Marketing</h4>
+                        <p>Immediate buying, easier shopping, enriched experiences</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>📊 Big Data & AI</h4>
+                        <p>Deep insights, personalized offers, improved engagement</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>🌍 Globalization</h4>
+                        <p>Global markets, international competition</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>♻️ Sustainability</h4>
+                        <p>Corporate ethics, social responsibility</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>🏥 Not-for-profit</h4>
+                        <p>Growing importance of social marketing</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Digital and Social Media Marketing</h3>
+                <p>Using digital tools to engage consumers anywhere, anytime:</p>
+                <ul style="list-style-position: inside; margin-top: 15px;">
+                    <li>Websites and mobile apps</li>
+                    <li>Social media platforms</li>
+                    <li>Online videos and blogs</li>
+                    <li>Email marketing</li>
+                    <li>Mobile advertising</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Case Study Section -->
+        <div class="content-section" id="case-study">
+            <div class="section-header">
+                <h1>Case Study: Amazon</h1>
+                <p>Creating Customer Value Excellence</p>
+            </div>
+
+            <div class="card">
+                <h3>🛒 Amazon's Success Story</h3>
+                <p>Amazon does much more than just sell goods online. It engages customers and creates satisfying experiences.</p>
+                
+                <div class="key-point">
+                    💬 <strong>Jeff Bezos:</strong> "The thing that drives everything is creating genuine value for customers."
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Key Success Factors</h3>
+                <div class="example-box">
+                    <h5>Customer Obsession</h5>
+                    <p>Everything starts with the customer and works backward</p>
+                </div>
+                <div class="example-box">
+                    <h5>Innovation</h5>
+                    <p>Continuous improvement and new service development</p>
+                </div>
+                <div class="example-box">
+                    <h5>Convenience</h5>
+                    <p>One-click ordering, Prime delivery, easy returns</p>
+                </div>
+                <div class="example-box">
+                    <h5>Personalization</h5>
+                    <p>Recommendations based on browsing and purchase history</p>
+                </div>
+            </div>
+
+            <div class="video-placeholder">
+                <h4>📹 Video Case Study</h4>
+                <p>Watch: "Amazon's Customer-Centric Approach"</p>
+                <small>(Video content would be embedded here)</small>
+            </div>
+        </div>
+
+        <!-- Practice Section -->
+        <div class="content-section" id="practice">
+            <div class="section-header">
+                <h1>Practice Questions</h1>
+                <p>Test Your Understanding</p>
+            </div>
+
+            <div class="card">
+                <h3>Quick Quiz</h3>
+                
+                <div class="interactive-quiz">
+                    <div class="quiz-question">
+                        <h4>1. What is the primary goal of marketing?</h4>
+                        <div class="quiz-option" onclick="selectOption(this, false)">A. To sell as many products as possible</div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">B. To create value for customers and capture value in return</div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">C. To advertise products effectively</div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">D. To maximize company profits</div>
+                    </div>
+                </div>
+
+                <div class="interactive-quiz">
+                    <div class="quiz-question">
+                        <h4>2. Which of the following is NOT one of the 4 Ps?</h4>
+                        <div class="quiz-option" onclick="selectOption(this, false)">A. Product</div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">B. Price</div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">C. People</div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">D. Promotion</div>
+                    </div>
+                </div>
+
+                <div class="interactive-quiz">
+                    <div class="quiz-question">
+                        <h4>3. What is marketing myopia?</h4>
+                        <div class="quiz-option" onclick="selectOption(this, false)">A. Poor vision in marketing departments</div>
+                        <div class="quiz-option" onclick="selectOption(this, true)">B. Focusing on products rather than customer benefits</div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">C. Short-term marketing planning</div>
+                        <div class="quiz-option" onclick="selectOption(this, false)">D. Lack of market research</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Discussion Questions</h3>
+                <ol style="list-style-position: inside; line-height: 2;">
+                    <li>How has digital transformation changed the marketing landscape?</li>
+                    <li>What makes Amazon's approach to customer relationships unique?</li>
+                    <li>Explain the difference between needs, wants, and demands with examples.</li>
+                    <li>Why is customer lifetime value important for businesses?</li>
+                    <li>How can companies avoid marketing myopia?</li>
+                </ol>
+            </div>
+
+            <div class="card">
+                <h3>Case Analysis</h3>
+                <p><strong>Scenario:</strong> You're the marketing manager for a new tech startup developing a fitness tracking app. Using the concepts from this lecture:</p>
+                <ol style="list-style-position: inside; line-height: 2; margin-top: 15px;">
+                    <li>Define your target customers' needs, wants, and demands</li>
+                    <li>Develop a compelling value proposition</li>
+                    <li>Outline your marketing mix strategy (4 Ps)</li>
+                    <li>Describe how you'll build customer relationships</li>
+                </ol>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update menu items
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function goBack() {
+            // alert('Returning to main course page...\nIn production, this would navigate back to the course hub.');
+            window.location.href = '/index.html';
+        }
+
+        function selectOption(element, isCorrect) {
+            // Clear previous selections
+            element.parentElement.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mark the selected option
+            if (isCorrect) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('incorrect');
+            }
+        }
+    </script>
+</body>
+</html>
